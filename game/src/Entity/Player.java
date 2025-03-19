@@ -1,15 +1,12 @@
 package Entity;
 
 import javax.imageio.ImageIO;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Objects;
 
-import main.KeyHandler;
-import main.GamePanel;
+import Main.KeyHandler;
+import Main.GamePanel;
 
 public class Player extends Entity{
 
