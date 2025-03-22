@@ -1,6 +1,7 @@
 package Main;
 
 import Entity.Player;
+import Tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +13,16 @@ public class GamePanel extends JPanel implements Runnable{
     public final int tileSize = originalTileSize * scale; //tile size to use for the game using orig tile size and scale (64x64) pixel
 
     //Screen size how many columns and row according to tile size
-    final int maxScreenCol = 16; //number of columns for the window GUI
-    final int maxScreenRow = 12; //number of rows for the window GUI
-    final int screenWidth = tileSize * maxScreenCol; //(768 pixels) width is equal to size of tile times the number of columns (used for setting size of window)
-    final int screenHeight = tileSize * maxScreenRow; // (576 pixels) height is equal to size of tile times the number of rows (used for setting size of window)
+    public final int maxScreenCol = 16; //number of columns for the window GUI
+    public final int maxScreenRow = 10; //number of rows for the window GUI
+    public final int screenWidth = tileSize * maxScreenCol; //(768 pixels) width is equal to size of tile times the number of columns (used for setting size of window)
+    public final int screenHeight = tileSize * maxScreenRow; // (576 pixels) height is equal to size of tile times the number of rows (used for setting size of window)
+
+    //World settings
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int maxWorldWidth = maxWorldCol * tileSize;
+    public final int maxWorldHeight = maxWorldRow * tileSize;
 
     Thread gameThread; // serves as game time or game clock
     KeyHandler keyH = new KeyHandler();
@@ -27,12 +34,15 @@ public class GamePanel extends JPanel implements Runnable{
 
     Player player = new Player(this,keyH);
 
+    TileManager tileM = new TileManager(this);
+
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // windows screen dimensions initialization
         this.setBackground(Color.BLACK); //sets window background color
         this.setDoubleBuffered(true); //set to true to improve rendering performance
         this.addKeyListener(keyH);//added to panel to listen for keys inputed, KeyH is an object from main.KeyHandler
         this.setFocusable(true);//focuses on this window panel
+
     }
 
     public void startGameThread(){
@@ -79,7 +89,9 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g); //necessary whenever painComponent is created
         Graphics2D g2 = (Graphics2D)g; //typecasting Graphics g to Graphics2D class because it has more function than Graphics class
 
+        tileM.draw(g2);
         player.paintComponent(g2);
+
 
         g2.dispose();//dispose after drawing
     }
