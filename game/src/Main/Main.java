@@ -17,6 +17,7 @@ public class Main {
         frame.pack(); //packs the window to fit the preferred size indicated in the gamepanel class
         frame.setLocationRelativeTo(null); //displays the window at the center of the screen
         frame.setVisible(true);// make window visible
+        panel.setUpGame();
         panel.startGameThread();// start game time or game clock
 
     }
