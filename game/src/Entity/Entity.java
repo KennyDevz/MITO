@@ -13,7 +13,7 @@ public class Entity{
     GamePanel gp;
     public int worldX, worldY;
     public String name;
-    public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
+    public BufferedImage up1,up2,up3,down1,down2,down3,left1,left2,left3,right1,right2,right3;
     public BufferedImage attackUp1,attackUp2,attackDown1,attackDown2,
     attackLeft1,attackLeft2,attackRight1,attackRight2;
     public String direction;
@@ -22,6 +22,7 @@ public class Entity{
 
     public Rectangle solidArea = new Rectangle(0, 0, 48 ,48);
     public Rectangle attackArea = new Rectangle(0,0,0, 0);
+    public Rectangle attackHitbox = new Rectangle(0, 0, 0, 0);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
     public  boolean invincible   = false;
@@ -71,6 +72,7 @@ public class Entity{
         return image;
     }
 
+
     public void setAction(){
 
     }
@@ -104,15 +106,14 @@ public class Entity{
         }
 
         spriteCounter++;
-        if(spriteCounter > 12){
-            if(spriteNum == 1){
-                spriteNum = 2;
-            }
-            else if(spriteNum == 2){
+        if (spriteCounter > 12) {
+            spriteNum++;
+            if (spriteNum > 3) { // Cycle back to 1
                 spriteNum = 1;
             }
             spriteCounter = 0;
         }
+
         if(invincible == true){
             invincibleCounter++;
             if(invincibleCounter > 40){
@@ -137,18 +138,22 @@ public class Entity{
                 case "up":
                     if(spriteNum == 1) {image = up1;}
                     if(spriteNum == 2) {image = up2;}
+                    if(spriteNum == 3) {image = up3;}
                     break;
                 case "down":
                     if(spriteNum == 1) {image = down1;}
                     if(spriteNum == 2) {image = down2;}
+                    if(spriteNum == 3) {image = down3;}
                     break;
                 case "right":
                     if(spriteNum == 1) {image = right1;}
                     if(spriteNum == 2) {image = right2;}
+                    if(spriteNum == 3) {image = right3;}
                     break;
                 case "left":
                     if(spriteNum == 1) {image = left1;}
                     if(spriteNum == 2) {image = left2;}
+                    if(spriteNum == 3) {image = left3;}
                     break;
             }
             //Hostile HealthBar

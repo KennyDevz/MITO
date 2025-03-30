@@ -1,6 +1,7 @@
 package Main;
 
-import Entity.Hostile_Slime;
+import Entity.Hostile_Dwende;
+import Entity.Hostile_Sigbin;
 import Entity.NPC_OldMan;
 import object.Obj_Boots;
 import object.Obj_Chest;
@@ -61,24 +62,24 @@ public class AssetSetter {
 
     }
     public void setHostile(){
-        gp.hostile[0] = new Hostile_Slime(gp);
+        gp.hostile[0] = new Hostile_Dwende(gp);
         //Set where Hostile spawns
         gp.hostile[0].worldX = gp.tileSize*23;
         gp.hostile[0].worldY = gp.tileSize*36;
 
-        gp.hostile[1] = new Hostile_Slime(gp);
+        gp.hostile[1] = new Hostile_Dwende(gp);
         gp.hostile[1].worldX = gp.tileSize*23;
         gp.hostile[1].worldY = gp.tileSize*37;
 
-        gp.hostile[2] = new Hostile_Slime(gp);
+        gp.hostile[2] = new Hostile_Dwende(gp);
         gp.hostile[2].worldX = gp.tileSize*23;
         gp.hostile[2].worldY = gp.tileSize*38;
 
-        gp.hostile[3] = new Hostile_Slime(gp);
+        gp.hostile[3] = new Hostile_Sigbin(gp);
         gp.hostile[3].worldX = gp.tileSize*37;
         gp.hostile[3].worldY = gp.tileSize*9;
 
-        gp.hostile[4] = new Hostile_Slime(gp);
+        gp.hostile[4] = new Hostile_Sigbin(gp);
         gp.hostile[4].worldX = gp.tileSize*37;
         gp.hostile[4].worldY = gp.tileSize*10;
 

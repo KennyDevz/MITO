@@ -8,8 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
-    final int originalTileSize = 64; //16x16 tile size for all components
-    final int scale = 1; //for scaling tile size to adapt to resolution
+    final int originalTileSize = 32; //16x16 tile size for all components
+    final int scale = 2; //for scaling tile size to adapt to resolution
 
     public final int tileSize = originalTileSize * scale; //tile size to use for the game using orig tile size and scale (64x64) pixel
 

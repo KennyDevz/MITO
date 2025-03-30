@@ -33,38 +33,42 @@ public class Player extends Entity {
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
-        attackArea.width = 48;
-        attackArea.height = 48;
+        attackArea.width = 32;
+        attackArea.height = 32;
         setDefaultvalues();
         getPlayerImage();
         getPlayerAttackImage();
     }
 
     public void getPlayerImage() {
-        up1 = setup("/indi_sprites/Entity/player/andres_walk_back1", gp.tileSize, gp.tileSize);
-        up2 = setup("/indi_sprites/Entity/player/andres_walk_back2", gp.tileSize, gp.tileSize);
-        down1 = setup("/indi_sprites/Entity/player/andres_walk_front1", gp.tileSize, gp.tileSize);
-        down2 = setup("/indi_sprites/Entity/player/andres_walk_front2", gp.tileSize, gp.tileSize);
-        left1 = setup("/indi_sprites/Entity/player/andres_walk_left1", gp.tileSize, gp.tileSize);
-        left2 = setup("/indi_sprites/Entity/player/andres_walk_left2", gp.tileSize, gp.tileSize);
-        right1 = setup("/indi_sprites/Entity/player/andres_walk_right1", gp.tileSize, gp.tileSize);
-        right2 = setup("/indi_sprites/Entity/player/andres_walk_right2", gp.tileSize, gp.tileSize);
+        up1 = setup("/indi_sprites/Entity/player/andres/andres_walk_back1", gp.tileSize, gp.tileSize);
+        up2 = setup("/indi_sprites/Entity/player/andres/andres_back", gp.tileSize, gp.tileSize);
+        up3 = setup("/indi_sprites/Entity/player/andres/andres_walk_back2", gp.tileSize, gp.tileSize);
+        down1 = setup("/indi_sprites/Entity/player/andres/andres_walk_front1", gp.tileSize, gp.tileSize);
+        down2 = setup("/indi_sprites/Entity/player/andres/andres_front", gp.tileSize, gp.tileSize);
+        down3 = setup("/indi_sprites/Entity/player/andres/andres_walk_front2", gp.tileSize, gp.tileSize);
+        left1 = setup("/indi_sprites/Entity/player/andres/andres_walk_left1", gp.tileSize, gp.tileSize);
+        left2 = setup("/indi_sprites/Entity/player/andres/andres_left", gp.tileSize, gp.tileSize);
+        left3 = setup("/indi_sprites/Entity/player/andres/andres_walk_left2", gp.tileSize, gp.tileSize);
+        right1 = setup("/indi_sprites/Entity/player/andres/andres_walk_right1", gp.tileSize, gp.tileSize);
+        right2 = setup("/indi_sprites/Entity/player/andres/andres_right", gp.tileSize, gp.tileSize);
+        right3 = setup("/indi_sprites/Entity/player/andres/andres_walk_right2", gp.tileSize, gp.tileSize);
     }
 
     public void getPlayerAttackImage() {
-        attackUp1 = setup("/indi_sprites/Entity/player/swing_back1", gp.tileSize, gp.tileSize*2);
-        attackUp2 = setup("/indi_sprites/Entity/player/swing_back2", gp.tileSize, gp.tileSize*2);
-        attackDown1 = setup("/indi_sprites/Entity/player/swing_front1", gp.tileSize, gp.tileSize*2);
-        attackDown2 = setup("/indi_sprites/Entity/player/swing_front2", gp.tileSize, gp.tileSize*2);
-        attackLeft1 = setup("/indi_sprites/Entity/player/swing_left1", gp.tileSize*2, gp.tileSize);
-        attackLeft2 = setup("/indi_sprites/Entity/player/swing_left2", gp.tileSize*2, gp.tileSize);
-        attackRight1 = setup("/indi_sprites/Entity/player/swing_right1", gp.tileSize*2, gp.tileSize);
-        attackRight2 = setup("/indi_sprites/Entity/player/swing_right2", gp.tileSize*2, gp.tileSize);
+        attackUp1 = setup("/indi_sprites/Entity/player/andres/swing_back1", gp.tileSize, gp.tileSize*2);
+        attackUp2 = setup("/indi_sprites/Entity/player/andres/swing_back2", gp.tileSize, gp.tileSize*2);
+        attackDown1 = setup("/indi_sprites/Entity/player/andres/swing_front1", gp.tileSize, gp.tileSize*2);
+        attackDown2 = setup("/indi_sprites/Entity/player/andres/swing_front2", gp.tileSize, gp.tileSize*2);
+        attackLeft1 = setup("/indi_sprites/Entity/player/andres/swing_left1", gp.tileSize*2, gp.tileSize);
+        attackLeft2 = setup("/indi_sprites/Entity/player/andres/swing_left2", gp.tileSize*2, gp.tileSize);
+        attackRight1 = setup("/indi_sprites/Entity/player/andres/swing_right1", gp.tileSize*2, gp.tileSize);
+        attackRight2 = setup("/indi_sprites/Entity/player/andres/swing_right2", gp.tileSize*2, gp.tileSize);
     }
 
     public void setDefaultvalues() {
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
+        worldX = gp.tileSize * 13;
+        worldY = gp.tileSize * 3;
         speed = 5;
         direction = "down";
         //Player status
@@ -78,11 +82,11 @@ public class Player extends Entity {
         } else if (keyH.up == true || keyH.down == true || keyH.left == true || keyH.right == true || keyH.space == true) {
             if (keyH.up) { //listens to player controls or inputs or pressed keys
                 direction = "up";
-            } else if (keyH.down) { //listens to player controls or inputs or pressed keys
+            }  if (keyH.down) { //listens to player controls or inputs or pressed keys
                 direction = "down";
-            } else if (keyH.left) { //listens to player controls or inputs or pressed keys
+            } if (keyH.left) { //listens to player controls or inputs or pressed keys
                 direction = "left";
-            } else if (keyH.right) { //listens to player controls or inputs or pressed keys
+            }  if (keyH.right) { //listens to player controls or inputs or pressed keys
                 direction = "right";
             }
 
@@ -123,18 +127,17 @@ public class Player extends Entity {
             gp.keyH.space = false;
 
             spriteCounter++;
-            if (spriteCounter > 12) {
-                if (spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
+            if (spriteCounter > 12) { // Reduce delay between frames
+                spriteNum++;
+                if (spriteNum > 3) {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
             }
         } else {
             standCounter++;
-            if (standCounter == 20) {
-                spriteNum = 1;
+            if (standCounter == 60) {
+                spriteNum = 2;
                 standCounter = 0;
             }
         }
@@ -181,7 +184,7 @@ public class Player extends Entity {
             solidArea.height = attackArea.height;
 
 
-            //Check hostile collisiom with the updated worldX, worldY and solidArea
+            //Check hostile collision with the updated worldX, worldY and solidArea
             int hostileIndex = gp.coliCheck.checkEntity(this, gp.hostile);
             damageHostile(hostileIndex);
 
@@ -280,7 +283,7 @@ public class Player extends Entity {
         switch (direction) {
             case "up":
                 if (!attacking) {
-                    image = (spriteNum == 1) ? up1 : up2;
+                    image = (spriteNum == 1 ? up1 : spriteNum == 2 ? up2 : up3);
                 } else {
                     tempScreenY = screenY - gp.tileSize;
                     image = (spriteNum == 1) ? attackUp1 : attackUp2;
@@ -290,7 +293,7 @@ public class Player extends Entity {
                 break;
             case "down":
                 if (!attacking) {
-                    image = (spriteNum == 1) ? down1 : down2;
+                    image = (spriteNum == 1 ? down1 : spriteNum == 2 ? down2 : down3);
                 } else {
                     image = (spriteNum == 1) ? attackDown1 : attackDown2;
                     targetWidth = gp.tileSize;
@@ -299,7 +302,7 @@ public class Player extends Entity {
                 break;
             case "left":
                 if (!attacking) {
-                    image = (spriteNum == 1) ? left1 : left2;
+                    image = (spriteNum == 1 ? left1 : spriteNum == 2 ? left2 : left3);
                 } else {
                     tempScreenX = screenX - gp.tileSize;
                     image = (spriteNum == 1) ? attackLeft1 : attackLeft2;
@@ -309,7 +312,7 @@ public class Player extends Entity {
                 break;
             case "right":
                 if (!attacking) {
-                    image = (spriteNum == 1) ? right1 : right2;
+                    image = (spriteNum == 1 ? right1 : spriteNum == 2 ? right2 : right3);
                 } else {
                     image = (spriteNum == 1) ? attackRight1 : attackRight2;
                     targetWidth = gp.tileSize * 2;
