@@ -1,8 +1,14 @@
 package Main;
 
+import Entity.Entity;
 import Entity.Player;
+<<<<<<< HEAD
 import Tile.TileManager;
 
+=======
+import object.SuperObject;
+import tile.TileManager;
+>>>>>>> 95d331225daf0b78ee6c3f7617fda903c07da1d2
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     //Screen size how many columns and row according to tile size
     public final int maxScreenCol = 16; //number of columns for the window GUI
+<<<<<<< HEAD
     public final int maxScreenRow = 10; //number of rows for the window GUI
     public final int screenWidth = tileSize * maxScreenCol; //(768 pixels) width is equal to size of tile times the number of columns (used for setting size of window)
     public final int screenHeight = tileSize * maxScreenRow; // (576 pixels) height is equal to size of tile times the number of rows (used for setting size of window)
@@ -23,16 +30,34 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxWorldRow = 50;
     public final int maxWorldWidth = maxWorldCol * tileSize;
     public final int maxWorldHeight = maxWorldRow * tileSize;
+=======
+    public final int maxScreenRow = 12; //number of rows for the window GUI
+    public final int screenWidth = tileSize * maxScreenCol; //(768 pixels) width is equal to size of tile times the number of columns (used for setting size of window)
+    public final int screenHeight = tileSize * maxScreenRow; // (576 pixels) height is equal to size of tile times the number of rows (used for setting size of window)
+
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight =  tileSize * maxWorldRow;
+>>>>>>> 95d331225daf0b78ee6c3f7617fda903c07da1d2
 
     Thread gameThread; // serves as game time or game clock
-    KeyHandler keyH = new KeyHandler();
+    TileManager tileM = new TileManager(this);
+    public KeyHandler keyH = new KeyHandler();
+    public CollisionChecker coliCheck = new CollisionChecker(this);
+    public AssetSetter aSetter = new AssetSetter(this);
+    public  UI ui = new UI(this);
+    public EventHandler eHander = new EventHandler(this);
+    public SuperObject obj[] = new SuperObject[10];
+    public Entity npc[] = new Entity[10];
+    public Entity hostile[] = new Entity[20];
 
     int PlayerX = 100;//sets player x coordinate
     int PlayerY = 100;//sets player y coordinate
     double PlayerSpeed = 3;//sets player speeed
     int FPS = 60; //sets Frames per second
 
-    Player player = new Player(this,keyH);
+    public Player player = new Player(this,keyH);
 
     TileManager tileM = new TileManager(this);
 
@@ -43,6 +68,12 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);//added to panel to listen for keys inputed, KeyH is an object from main.KeyHandler
         this.setFocusable(true);//focuses on this window panel
 
+    }
+
+    public void setUpGame(){
+        aSetter.setObject();
+        aSetter.setNPC();
+        aSetter.setHostile();
     }
 
     public void startGameThread(){
@@ -81,17 +112,62 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){//x and y coordinate are from top left so x=0 y=0
+        //Player
         player.update();
+        //NPC
+        for(int i = 0; i < npc.length; i++){
+            if(npc[i] != null){
+                npc[i].update();
+            }
+        }
+        //Hostile
+        for(int i = 0; i < hostile.length; i++){
+            if(hostile[i] != null){
+                if(hostile[i].alive == true && hostile[i].dying == false){
+                    hostile[i].update();
+                }
+                if(hostile[i].alive == false){
+                    hostile[i] = null;
+                }
+            }
+        }
     }
 
     @Override
     public void paintComponent(Graphics g){//graphics class used to draw objects on the screen
         super.paintComponent(g); //necessary whenever painComponent is created
         Graphics2D g2 = (Graphics2D)g; //typecasting Graphics g to Graphics2D class because it has more function than Graphics class
+        //Tile
+        tileM.draw(g2);
+        //Object
+        for(int i = 0; i < obj.length; i++){
+            if(obj[i] != null){
+                obj[i].draw(g2, this);
+            }
+        }
+        //NPC
+        for(int i = 0; i < npc.length; i++){
+            if(npc[i] != null){
+                npc[i].draw(g2);
+            }
+        }
+        //Hostile
+        for(int i = 0; i < hostile.length; i++){
+            if(hostile[i] != null){
+                hostile[i].draw(g2);
+            }
+        }
 
+<<<<<<< HEAD
         tileM.draw(g2);
         player.paintComponent(g2);
 
+=======
+        //Player
+        player.paintComponent(g2);
+
+        ui.draw(g2);
+>>>>>>> 95d331225daf0b78ee6c3f7617fda903c07da1d2
 
         g2.dispose();//dispose after drawing
     }

@@ -3,7 +3,10 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+<<<<<<< HEAD
       <sourceFolder url="file://$MODULE_DIR$/game/res" type="java-resource" />
+=======
+>>>>>>> 95d331225daf0b78ee6c3f7617fda903c07da1d2
       <sourceFolder url="file://$MODULE_DIR$/game/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
