@@ -33,8 +33,8 @@ public class Player extends Entity {
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
-        attackArea.width = 32;
-        attackArea.height = 32;
+        attackArea.width = 38;
+        attackArea.height = 48;
         setDefaultvalues();
         getPlayerImage();
         getPlayerAttackImage();
@@ -68,27 +68,31 @@ public class Player extends Entity {
 
     public void setDefaultvalues() {
         worldX = gp.tileSize * 13;
-        worldY = gp.tileSize * 3;
-        speed = 5;
+        worldY = gp.tileSize * 21;
+        speed = 8;
         direction = "down";
         //Player status
-        maxLife = 16;
+        maxLife = 200;
         life = maxLife;
     }
 
     public void update() {
-        if (attacking == true) {
+        if (isAttacking()) {
             attacking();
-        } else if (keyH.up == true || keyH.down == true || keyH.left == true || keyH.right == true || keyH.space == true) {
-            if (keyH.up) { //listens to player controls or inputs or pressed keys
-                direction = "up";
-            }  if (keyH.down) { //listens to player controls or inputs or pressed keys
-                direction = "down";
-            } if (keyH.left) { //listens to player controls or inputs or pressed keys
-                direction = "left";
-            }  if (keyH.right) { //listens to player controls or inputs or pressed keys
-                direction = "right";
+        } else if (keyH.isUp() || keyH.isDown() || keyH.isLeft() || keyH.isRight() || keyH.isSpace()) {
+            if (keyH.isUp()) { //listens to player controls or inputs or pressed keys
+                setDirection("up");
+            } else if (keyH.isDown()) { //listens to player controls or inputs or pressed keys
+                setDirection("down");
+            } else if (keyH.isLeft()) { //listens to player controls or inputs or pressed keys
+                setDirection("left");
+            } else if (keyH.isRight()) { //listens to player controls or inputs or pressed keys
+                setDirection("right");
             }
+            if(keyH.isSpace()){
+                gp.playSE(7);
+            }
+
 
             //Check tile collision
             collisionOn = false;
@@ -107,8 +111,8 @@ public class Player extends Entity {
             contactHostile(hostileIndex);
 
             //Check Event
-            gp.eHander.checkEvent();
-            if (collisionOn == false && keyH.space == false) {
+            gp.eHandler.checkEvent();
+            if (!collisionOn && !keyH.isSpace()) {
                 switch (direction) {
                     case "up":
                         worldY -= speed;
@@ -124,7 +128,9 @@ public class Player extends Entity {
                         break;
                 }
             }
-            gp.keyH.space = false;
+
+            System.out.println(worldX / gp.tileSize + " " + worldY / gp.tileSize);
+            gp.keyH.setSpace(false);
 
             spriteCounter++;
             if (spriteCounter > 12) { // Reduce delay between frames
@@ -205,16 +211,18 @@ public class Player extends Entity {
     public void pickUpObject(int i) {
 
         if (i != 999) {
-            String objectName = gp.obj[i].name;
+            String objectName = gp.obj[i].getName();
 
             switch (objectName) {
                 case "Key":
                     hasKey++;
+                    gp.playSE(1);
                     gp.obj[i] = null;
                     gp.ui.showMessage("You picked up a key!");
                     break;
                 case "Door":
                     if (hasKey > 0) {
+                        gp.playSE(3);
                         gp.obj[i] = null;
                         gp.ui.showMessage("You opened the door!");
                         hasKey--;
@@ -224,6 +232,7 @@ public class Player extends Entity {
                     break;
                 case "Boots":
                     speed += 5;
+                    gp.playSE(2);
                     gp.ui.showMessage("You picked up boots!");
                     gp.obj[i] = null;
                     break;
@@ -235,25 +244,44 @@ public class Player extends Entity {
                     } else {
                         gp.ui.showMessage("You need a key!");
                     }
+                    break;
+                case "Dropped_Coin":
+                    gp.obj[i] = null;
+                    gp.playSE(2);
+                    gp.ui.showMessage("You picked up coin!");
+                    setCoin(getCoin()+1);
+                    break;
+                case "Dropped_Sword":
+                    gp.playSE(2);
+                    gp.ui.showMessage("You picked up sword!");
+                    gp.obj[i] = null;
+                    break;
             }
         }
     }
 
     public void interactNPC(int i) {
-        if (gp.keyH.space == true) {
+        if (gp.keyH.isSpace() == true) {
             if (i != 999) {
                 System.out.println("You have collided with an NPC!");
             } else {
                 attacking = true;
             }
         }
+        if (i != 999) {
+            if (gp.keyH.isInteracting()) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();}
+        }
+        gp.keyH.setInteracting(false);
 
     }
 
     public void contactHostile(int i) {
         if (i != 999) {
-            if (invincible == false) {
-                life -= 2;
+            if (invincible == false && gp.hostile[i].dying == false) {
+                gp.playSE(6);
+                life -= 25;
                 invincible = true;
             }
         }
@@ -262,12 +290,14 @@ public class Player extends Entity {
     public void damageHostile(int i) {
         if (i != 999) {
             if (gp.hostile[i].invincible == false) {
-                gp.hostile[i].life -= 1;
+                gp.playSE(5);
+                gp.hostile[i].life -= 3;
                 gp.hostile[i].invincible = true;
                 gp.hostile[i].damageReaction();
 
                 if (gp.hostile[i].life <= 0) {
                     gp.hostile[i].dying = true;
+                    gp.hostile[i].checkDrop();
                 }
             }
         }
@@ -335,8 +365,8 @@ public class Player extends Entity {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         // Draw collision rectangles for debugging.
-        g2.setColor(Color.red);
-        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//        g2.setColor(Color.red);
+//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
         if (attacking) {
             int atkX = screenX + solidArea.x;
@@ -355,8 +385,31 @@ public class Player extends Entity {
                     atkX = screenX + gp.tileSize;
                     break;
             }
-            g2.drawRect(atkX, atkY, attackArea.width, attackArea.height);
+//            g2.drawRect(atkX, atkY, attackArea.width, attackArea.height);
         }
+    }
+
+    //setters and getters
+    public int getScreenX() { return screenX; }
+
+    public int getScreenY() { return screenY; }
+
+    public int getHasKey() { return hasKey; }
+    public void setHasKey(int hasKey) { this.hasKey = hasKey; }
+
+    public int getStandCounter() { return standCounter; }
+    public void setStandCounter(int standCounter) { this.standCounter = standCounter; }
+
+    @Override
+    public int getAttack() {
+        super.setAttack(getStrength() * currentWeapon.getAttackValue());
+        return super.getAttack();
+    }
+
+    @Override
+    public int getDefense() {
+        super.setDefense(getDexterity() * currentShield.getDefenseValue());
+        return super.getDefense();
     }
 
 }

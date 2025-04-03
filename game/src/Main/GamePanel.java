@@ -14,30 +14,42 @@ public class GamePanel extends JPanel implements Runnable{
     public final int tileSize = originalTileSize * scale; //tile size to use for the game using orig tile size and scale (64x64) pixel
 
     //Screen size how many columns and row according to tile size
-    public final int maxScreenCol = 16; //number of columns for the window GUI
+    public final int maxScreenCol = 20; //number of columns for the window GUI
     public final int maxScreenRow = 12; //number of rows for the window GUI
     public final int screenWidth = tileSize * maxScreenCol; //(768 pixels) width is equal to size of tile times the number of columns (used for setting size of window)
     public final int screenHeight = tileSize * maxScreenRow; // (576 pixels) height is equal to size of tile times the number of rows (used for setting size of window)
 
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight =  tileSize * maxWorldRow;
 
     Thread gameThread; // serves as game time or game clock
     TileManager tileM = new TileManager(this);
-    public KeyHandler keyH = new KeyHandler();
+    public KeyHandler keyH = new KeyHandler(this);
     public CollisionChecker coliCheck = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public  UI ui = new UI(this);
-    public EventHandler eHander = new EventHandler(this);
+    public EventHandler eHandler = new EventHandler(this);
     public SuperObject obj[] = new SuperObject[10];
-    public Entity npc[] = new Entity[10];
-    public Entity hostile[] = new Entity[20];
+    int maxHostile = 50;
+    int maxNPC = 10;
+    public Entity npc[] = new Entity[maxNPC];
+    public Entity hostile[] = new Entity[maxHostile];
+    SoundHandler sound = new SoundHandler();
+    SoundHandler se = new SoundHandler();
+
+    public int currentMap = 0; // 0 = worldMap1, 1 = worldMap2, 2 = worldMap3
+
 
     int FPS = 60; //sets Frames per second
 
     public Player player = new Player(this,keyH);
+
+    //Game state
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
+    public final int dialogueState = 3;
+    public final int deadState = 4;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // windows screen dimensions initialization
@@ -51,6 +63,9 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setObject();
         aSetter.setNPC();
         aSetter.setHostile();
+        gameState = playState;
+        playMusic(0);
+
     }
 
     public void startGameThread(){
@@ -90,24 +105,43 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update(){//x and y coordinate are from top left so x=0 y=0
         //Player
-        player.update();
+        if(gameState == playState){
+            if(player.life <= 0){
+                gameState = deadState;
+            }
+            player.update();
+        }else if(gameState == pauseState || gameState == deadState){
+
+        }
         //NPC
         for(int i = 0; i < npc.length; i++){
             if(npc[i] != null){
-                npc[i].update();
+                if(gameState == playState){
+                    npc[i].update();
+                }else if(gameState == pauseState || gameState == deadState){
+
+                }
             }
         }
         //Hostile
         for(int i = 0; i < hostile.length; i++){
             if(hostile[i] != null){
-                if(hostile[i].alive == true && hostile[i].dying == false){
-                    hostile[i].update();
+                if(hostile[i].isAlive() && !hostile[i].isDying()){
+                    if(gameState == playState || gameState == dialogueState){
+                        hostile[i].update();
+                    }else if(gameState == pauseState || gameState == deadState){
+
+                    }
+
                 }
-                if(hostile[i].alive == false){
+                if(!hostile[i].isAlive()){
+                    hostile[i].checkDrop();
                     hostile[i] = null;
                 }
             }
         }
+
+//        eHandler.checkEvent();
     }
 
     @Override
@@ -141,5 +175,22 @@ public class GamePanel extends JPanel implements Runnable{
         ui.draw(g2);
 
         g2.dispose();//dispose after drawing
+    }
+
+    public void playMusic(int i)
+    {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+    public void stopMusic()
+    {
+        sound.stop();
+    }
+
+    public void playSE(int i) // Sound effect, dont need loop
+    {
+        se.setFile(i);
+        se.play();
     }
 }

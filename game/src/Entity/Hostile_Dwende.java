@@ -1,6 +1,10 @@
 package Entity;
 
 import Main.GamePanel;
+import object.Obj_Boots;
+import object.Obj_Dropped_Coin;
+import object.Obj_Dropped_Sword;
+import object.Obj_Key;
 
 import java.util.Random;
 
@@ -63,5 +67,19 @@ public class Hostile_Dwende extends Entity{
     public void damageReaction(){
         actionLockCounter = 0;
         direction = gp.player.direction;
+    }
+
+    public void checkDrop(){
+        int i = new Random().nextInt(100)+1;
+        if(i < 50){
+            dropItem(new Obj_Dropped_Coin(gp));
+            System.out.println("Dropped coin");
+        } else if(i >= 50 && i < 75){
+            dropItem(new Obj_Key(gp));
+            System.out.println("Dropped Key");
+        }else if(i >= 75 && i < 100){
+            dropItem(new Obj_Dropped_Sword(gp));
+            System.out.println("Dropped sword");
+        }
     }
 }

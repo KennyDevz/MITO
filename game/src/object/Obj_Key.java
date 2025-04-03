@@ -10,10 +10,10 @@ public class Obj_Key extends SuperObject {
 
     public Obj_Key(GamePanel gp){
         this.gp = gp;
-        name = "Key";
+        setName("Key");
         try{
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/key.png"));
-            uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+            setImage(ImageIO.read(getClass().getResourceAsStream("/objects/key.png")));
+            uTool.scaleImage(getImage(), gp.tileSize, gp.tileSize);
         }catch(IOException e){
             e.printStackTrace();
         }

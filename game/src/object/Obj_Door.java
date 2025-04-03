@@ -10,13 +10,13 @@ public class Obj_Door extends SuperObject{
     GamePanel gp;
     public Obj_Door(GamePanel gp){
         this.gp = gp;
-        name = "Door";
+        setName("Door");
         try{
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/door.png"));
-            uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+            setImage(ImageIO.read(getClass().getResourceAsStream("/objects/door.png")));
+            uTool.scaleImage(getImage(), gp.tileSize, gp.tileSize);
         }catch(IOException e){
             e.printStackTrace();
         }
-        collision = true;
+        setCollision(true);
     }
 }

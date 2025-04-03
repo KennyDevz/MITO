@@ -1,12 +1,7 @@
 package Main;
 
-import Entity.Hostile_Dwende;
-import Entity.Hostile_Sigbin;
-import Entity.NPC_OldMan;
-import object.Obj_Boots;
-import object.Obj_Chest;
-import object.Obj_Door;
-import object.Obj_Key;
+import Entity.*;
+import object.*;
 
 public class AssetSetter {
     GamePanel gp;
@@ -16,72 +11,113 @@ public class AssetSetter {
     }
 
     public void setObject(){
-        gp.obj[0] = new Obj_Key(gp);
-        gp.obj[0].worldX = 23 * gp.tileSize;
-        gp.obj[0].worldY = 7 * gp.tileSize;
 
-        gp.obj[1] = new Obj_Key(gp);
-        gp.obj[1].worldX = 23 * gp.tileSize;
-        gp.obj[1].worldY = 40 * gp.tileSize;
+        // Map 0 objects
+        if(gp.tileM.map.equals("/maps/worldMap1.txt")) {
 
-        gp.obj[2] = new Obj_Key(gp);
-        gp.obj[2].worldX = 37 * gp.tileSize;
-        gp.obj[2].worldY = 7 * gp.tileSize;
+        }
+        // Map 1 objects
+        else if(gp.tileM.map.equals("/maps/worldMap2.txt")) {
 
-        gp.obj[3] = new Obj_Key(gp);
-        gp.obj[3].worldX = 35 * gp.tileSize;
-        gp.obj[3].worldY = 7 * gp.tileSize;
+        }
+        else if(gp.tileM.map.equals("/maps/worldMap3.txt")) {
 
-        gp.obj[4] = new Obj_Door(gp);
-        gp.obj[4].worldX = 10 * gp.tileSize;
-        gp.obj[4].worldY = 11 * gp.tileSize;
-
-        gp.obj[5] = new Obj_Door(gp);
-        gp.obj[5].worldX = 8 * gp.tileSize;
-        gp.obj[5].worldY = 28 * gp.tileSize;
-
-        gp.obj[6] = new Obj_Door(gp);
-        gp.obj[6].worldX = 12 * gp.tileSize;
-        gp.obj[6].worldY = 22 * gp.tileSize;
-
-        gp.obj[7] = new Obj_Chest(gp);
-        gp.obj[7].worldX = 10 * gp.tileSize;
-        gp.obj[7].worldY = 10 * gp.tileSize;
-
-        gp.obj[8] = new Obj_Boots(gp);
-        gp.obj[8].worldX = 25 * gp.tileSize;
-        gp.obj[8].worldY = 23 * gp.tileSize;
+        }
     }
 
     public void setNPC(){
-        gp.npc[0] = new NPC_OldMan(gp);
+        //type1 = OldMan, type2 = PilosopoTasyo
+        if(gp.npc != null) {
+            for(int i = 0; i < gp.npc.length; i++) {
+                gp.npc[i] = null;
+            }
+        }
+        if(gp.tileM.map.equals("/maps/worldMap1.txt")) {
+            spawnNPC(0,17,6,2);
+        }
+        else if(gp.tileM.map.equals("/maps/worldMap2.txt")) {
+            spawnNPC(0,36,35,1);
+        }
+        else if(gp.tileM.map.equals("/maps/worldMap3.txt")) {
+//            spawnNPC(0,13,2,1);
+        }
+    }
 
-        //Set where NPC spawns
-        gp.npc[0].worldX = gp.tileSize*21;
-        gp.npc[0].worldY = gp.tileSize*21;
+    public void setHostile(){
+        //type1 = Dwende, type2 = Sigbin, type3 = Tikbalang
+        if(gp.hostile != null) {
+            for(int i = 0; i < gp.hostile.length; i++) {
+                gp.hostile[i] = null;
+            }
+        }
+        if(gp.tileM.map.equals("/maps/worldMap1.txt")) {
+            spawnHostile(0,38,8,1);
+            spawnHostile(1,38,9,1);
+            spawnHostile(2,38,10,1);
+            spawnHostile(3,36,17,1);
+            spawnHostile(4,38,18,1);
+
+            spawnHostile(5,28,33,2);
+            spawnHostile(6,28,34,2);
+            spawnHostile(7,35,36,2);
+            spawnHostile(8,37,30,2);
+            spawnHostile(9,36,41,2);
+
+        }
+        else if(gp.tileM.map.equals("/maps/worldMap2.txt")) {
+            spawnHostile(0,37,35,3);
+            spawnHostile(1,35,33,3);
+            spawnHostile(2,34,37,3);
+            spawnHostile(3,33,42,3);
+            spawnHostile(4,31,34,3);
+
+            spawnHostile(5,15,33,4);
+            spawnHostile(6,12,38,4);
+            spawnHostile(7,17,31,4);
+            spawnHostile(8,19,36,4);
+            spawnHostile(9,15,31,4);
+
+        }
+        else if(gp.tileM.map.equals("/maps/worldMap3.txt")) {
+
+        }
+    }
+
+    public void spawnHostile(int i, int x, int y, int type){
+        if(type == 1){
+            gp.hostile[i] = new Hostile_Dwende(gp);
+            gp.hostile[i].worldX = gp.tileSize * x;
+            gp.hostile[i].worldY = gp.tileSize* y;
+        } else if(type ==2){
+            gp.hostile[i] = new Hostile_Sigbin(gp);
+            gp.hostile[i].worldX = gp.tileSize * x;
+            gp.hostile[i].worldY = gp.tileSize* y;
+        } else if(type == 3){
+            gp.hostile[i] = new Hostile_Tikbalang(gp);
+            gp.hostile[i].worldX = gp.tileSize * x;
+            gp.hostile[i].worldY = gp.tileSize* y;
+        } else if(type == 4){
+            gp.hostile[i] = new Hostile_Wakwak(gp);
+            gp.hostile[i].worldX = gp.tileSize * x;
+            gp.hostile[i].worldY = gp.tileSize* y;
+        }
 
     }
-    public void setHostile(){
-        gp.hostile[0] = new Hostile_Dwende(gp);
-        //Set where Hostile spawns
-        gp.hostile[0].worldX = gp.tileSize*23;
-        gp.hostile[0].worldY = gp.tileSize*36;
+    public void spawnNPC(int i, int x, int y, int type){
+        if(type == 1){
+            gp.npc[i] = new NPC_OldMan(gp);
+            gp.npc[i].worldX = gp.tileSize * x;
+            gp.npc[i].worldY = gp.tileSize* y;
+        } else if(type ==2){
+            gp.npc[i] = new NPC_PilosopoTasyo(gp);
+            gp.npc[i].worldX = gp.tileSize * x;
+            gp.npc[i].worldY = gp.tileSize* y;
+        }
 
-        gp.hostile[1] = new Hostile_Dwende(gp);
-        gp.hostile[1].worldX = gp.tileSize*23;
-        gp.hostile[1].worldY = gp.tileSize*37;
+    }
 
-        gp.hostile[2] = new Hostile_Dwende(gp);
-        gp.hostile[2].worldX = gp.tileSize*23;
-        gp.hostile[2].worldY = gp.tileSize*38;
+    public void spawnObject(int i, int x, int y, int type){
 
-        gp.hostile[3] = new Hostile_Sigbin(gp);
-        gp.hostile[3].worldX = gp.tileSize*37;
-        gp.hostile[3].worldY = gp.tileSize*9;
-
-        gp.hostile[4] = new Hostile_Sigbin(gp);
-        gp.hostile[4].worldX = gp.tileSize*37;
-        gp.hostile[4].worldY = gp.tileSize*10;
 
     }
 }
