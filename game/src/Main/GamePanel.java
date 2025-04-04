@@ -139,7 +139,7 @@ public class GamePanel extends JPanel implements Runnable{
         //NPC
         for(int i = 0; i < npc.length; i++){
             if(npc[i] != null){
-                if(gameState == playState){
+                if(gameState == playState || gameState == deadState){
                     npc[i].update();
                 }else if(gameState == pauseState){
 
@@ -150,9 +150,9 @@ public class GamePanel extends JPanel implements Runnable{
         for(int i = 0; i < hostile.length; i++){
             if(hostile[i] != null){
                 if(hostile[i].isAlive() && !hostile[i].isDying()){
-                    if(gameState == playState || gameState == dialogueState){
+                    if(gameState == playState || gameState == dialogueState || gameState == deadState){
                         hostile[i].update();
-                    }else if(gameState == pauseState || gameState == deadState){
+                    }else if(gameState == pauseState){
 
                     }
 
