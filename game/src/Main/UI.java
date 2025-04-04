@@ -166,9 +166,12 @@ public class UI {
     }
 
     public void drawPauseScreen(){
+        g2.setColor(new Color(125, 125, 125, 128));
+        g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
         String text = "PAUSED";
         int x = getXforCenteredText(text);
         int y = gp.screenHeight / 2;
+        g2.setColor(Color.white);
         g2.drawString(text, x, y);
 //        pmenu.setVisible(true);
     }
