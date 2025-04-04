@@ -53,6 +53,7 @@ public class Player extends Entity {
         right1 = setup("/indi_sprites/Entity/player/andres/andres_walk_right1", gp.tileSize, gp.tileSize);
         right2 = setup("/indi_sprites/Entity/player/andres/andres_right", gp.tileSize, gp.tileSize);
         right3 = setup("/indi_sprites/Entity/player/andres/andres_walk_right2", gp.tileSize, gp.tileSize);
+        dead = setup("/indi_sprites/Entity/player/andres/dead", gp.tileSize, gp.tileSize);
     }
 
     public void getPlayerAttackImage() {
@@ -310,45 +311,49 @@ public class Player extends Entity {
         int targetWidth = gp.tileSize;
         int targetHeight = gp.tileSize;  // default for normal sprites
 
-        switch (direction) {
-            case "up":
-                if (!attacking) {
-                    image = (spriteNum == 1 ? up1 : spriteNum == 2 ? up2 : up3);
-                } else {
-                    tempScreenY = screenY - gp.tileSize;
-                    image = (spriteNum == 1) ? attackUp1 : attackUp2;
-                    targetWidth = gp.tileSize;
-                    targetHeight = gp.tileSize * 2;
-                }
-                break;
-            case "down":
-                if (!attacking) {
-                    image = (spriteNum == 1 ? down1 : spriteNum == 2 ? down2 : down3);
-                } else {
-                    image = (spriteNum == 1) ? attackDown1 : attackDown2;
-                    targetWidth = gp.tileSize;
-                    targetHeight = gp.tileSize * 2;
-                }
-                break;
-            case "left":
-                if (!attacking) {
-                    image = (spriteNum == 1 ? left1 : spriteNum == 2 ? left2 : left3);
-                } else {
-                    tempScreenX = screenX - gp.tileSize;
-                    image = (spriteNum == 1) ? attackLeft1 : attackLeft2;
-                    targetWidth = gp.tileSize * 2;
-                    targetHeight = gp.tileSize;
-                }
-                break;
-            case "right":
-                if (!attacking) {
-                    image = (spriteNum == 1 ? right1 : spriteNum == 2 ? right2 : right3);
-                } else {
-                    image = (spriteNum == 1) ? attackRight1 : attackRight2;
-                    targetWidth = gp.tileSize * 2;
-                    targetHeight = gp.tileSize;
-                }
-                break;
+        if(!alive) image = dead;
+
+        else{
+            switch (direction) {
+                case "up":
+                    if (!attacking) {
+                        image = (spriteNum == 1 ? up1 : spriteNum == 2 ? up2 : up3);
+                    } else {
+                        tempScreenY = screenY - gp.tileSize;
+                        image = (spriteNum == 1) ? attackUp1 : attackUp2;
+                        targetWidth = gp.tileSize;
+                        targetHeight = gp.tileSize * 2;
+                    }
+                    break;
+                case "down":
+                    if (!attacking) {
+                        image = (spriteNum == 1 ? down1 : spriteNum == 2 ? down2 : down3);
+                    } else {
+                        image = (spriteNum == 1) ? attackDown1 : attackDown2;
+                        targetWidth = gp.tileSize;
+                        targetHeight = gp.tileSize * 2;
+                    }
+                    break;
+                case "left":
+                    if (!attacking) {
+                        image = (spriteNum == 1 ? left1 : spriteNum == 2 ? left2 : left3);
+                    } else {
+                        tempScreenX = screenX - gp.tileSize;
+                        image = (spriteNum == 1) ? attackLeft1 : attackLeft2;
+                        targetWidth = gp.tileSize * 2;
+                        targetHeight = gp.tileSize;
+                    }
+                    break;
+                case "right":
+                    if (!attacking) {
+                        image = (spriteNum == 1 ? right1 : spriteNum == 2 ? right2 : right3);
+                    } else {
+                        image = (spriteNum == 1) ? attackRight1 : attackRight2;
+                        targetWidth = gp.tileSize * 2;
+                        targetHeight = gp.tileSize;
+                    }
+                    break;
+            }
         }
 
         // Damage effect when player is invincible.

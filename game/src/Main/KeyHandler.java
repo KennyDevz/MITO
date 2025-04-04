@@ -39,8 +39,7 @@ public class KeyHandler implements KeyListener {
 
                 space = true;
             }
-            if(code == KeyEvent.VK_E){
-
+            else if(code == KeyEvent.VK_E){
                 interact = true;
             }
             if (code == KeyEvent.VK_ESCAPE){
@@ -50,11 +49,17 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_ESCAPE){
                 gp.gameState = gp.playState;
             }
+            else if(code == KeyEvent.VK_ENTER) gp.switchToMenuPanel();
         } else if(gp.gameState == gp.dialogueState){
             if(code == KeyEvent.VK_E){
-
                 interact = false;
                 gp.gameState = gp.playState;
+            }
+        }
+        else if(gp.gameState == gp.deadState){
+            if(code == KeyEvent.VK_ENTER) {
+                gp.gameState = gp.titleState;
+                gp.switchToMenuPanel();
             }
         }
 

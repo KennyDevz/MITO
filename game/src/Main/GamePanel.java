@@ -46,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     //Game state
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
@@ -57,6 +58,24 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true); //set to true to improve rendering performance
         this.addKeyListener(keyH);//added to panel to listen for keys inputed, KeyH is an object from main.KeyHandler
         this.setFocusable(true);//focuses on this window panel
+    }
+
+    private JFrame getParentFrame() {
+        return (JFrame) SwingUtilities.getWindowAncestor(this); // Get parent JFrame
+    }
+
+   public void switchToMenuPanel() {
+        JFrame parentFrame = getParentFrame();
+        if (parentFrame != null) {
+            parentFrame.getContentPane().removeAll(); // Remove current content
+            MenuPanel menuPanel = new MenuPanel(parentFrame); // Create a new MenuPanel
+            parentFrame.add(menuPanel);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            menuPanel.requestFocusInWindow(); // Ensure it gets focus
+            gameState = titleState;
+
+        }
     }
 
     public void setUpGame(){
@@ -110,15 +129,19 @@ public class GamePanel extends JPanel implements Runnable{
                 gameState = deadState;
             }
             player.update();
-        }else if(gameState == pauseState || gameState == deadState){
+        }else if(gameState == pauseState ){
 
+        }else if(gameState == deadState){
+                player.alive = false;
         }
+
+
         //NPC
         for(int i = 0; i < npc.length; i++){
             if(npc[i] != null){
                 if(gameState == playState){
                     npc[i].update();
-                }else if(gameState == pauseState || gameState == deadState){
+                }else if(gameState == pauseState){
 
                 }
             }

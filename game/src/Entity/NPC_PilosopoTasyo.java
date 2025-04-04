@@ -73,12 +73,20 @@ public class NPC_PilosopoTasyo extends Entity{
             setDialogueIndex(1);
         }
 
-
-        switch (gp.player.getDirection()){
-            case "up": setDirection("down"); break;
-            case "down": setDirection("up"); break;
-            case "left": setDirection("right"); break;
-            case "right": setDirection("left"); break;
+            switch (gp.player.getDirection()) {
+                case "up":
+                    setDirection("down");
+                    break;
+                case "down":
+                    setDirection("up");
+                    break;
+                case "left":
+                    setDirection("right");
+                    break;
+                case "right":
+                    setDirection("left");
+                    break;
+            }
         }
-    }
+
 }
